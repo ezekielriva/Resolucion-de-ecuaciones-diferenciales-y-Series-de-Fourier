@@ -1,11 +1,11 @@
 object FormMain: TFormMain
-  Left = 1668
-  Height = 280
-  Top = 137
-  Width = 528
+  Left = 1656
+  Height = 562
+  Top = 136
+  Width = 711
   Caption = 'Series de Fourier'
-  ClientHeight = 278
-  ClientWidth = 528
+  ClientHeight = 560
+  ClientWidth = 711
   Menu = MainMenu1
   OnCreate = FormCreate
   LCLVersion = '0.9.30'
@@ -89,8 +89,29 @@ object FormMain: TFormMain
     OnClick = ButtonCalcularClick
     TabOrder = 4
   end
+  object Matriz: TStringGrid
+    Left = 16
+    Height = 225
+    Top = 296
+    Width = 640
+    ColCount = 1
+    FixedCols = 0
+    FixedRows = 0
+    RowCount = 1
+    TabOrder = 5
+  end
   object MainMenu1: TMainMenu
     left = 16
+    top = 240
+  end
+  object Formula: TArtFormula
+    UnQuotedString = False
+    Step = False
+    ExternGetVar = False
+    VarNameLiterals = '_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+    NoLeadingZero = False
+    ZeroEmptyString = False
+    left = 56
     top = 240
   end
 end
