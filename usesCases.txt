@@ -1,0 +1,20 @@
+# usesCases.txt
+# Autor: Ezequiel Rivadeneira Lichardi
+# 	 Agustin Gonzales Lamenza
+# Version: 1.0
+# 
+
+CU-Calculo de Series de Fourier
+Actor: Usuario
+Precondicion: ~
+Garantias de Exito: el Sistema calcula la serie de Fourier, el Sistema grafica la serie de Fourier
+Escenario principal de exito:
+	1. El Usuario inicia una nueva entrada.
+	2. El Usuario ingresa la Ecuacion de la Onda con su Periodo, y la cantidad de componentes
+	   de la Serie de Fourier a utilizar.
+	3. El Sistema verifica la Ecuacion de la Onda y las compoenentes de la Serie de Fourier
+	6. El Sistema calcula la Serie de Fourier y la muestra por Pantalla.
+	7. El Sistema grafica la Serie de Fourier.
+Extenciones:
+	3a. El Sistema encuentra inconcistencias en la Ecuacion de la Onda
+		1. El Sistema rechaza la entrada.
