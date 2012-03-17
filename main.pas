@@ -36,7 +36,7 @@ type
     SerieF: String;
   public
     procedure CalcularAn(funcion:String; periodo:Double; subN: Integer);
-    function func(x:Double):Double;
+    function func(ec:String;x:Double):Double;
     { public declarations }
 
   end; 
@@ -53,6 +53,7 @@ implementation
 procedure TFormMain.ButtonCalcularClick(Sender: TObject);
 var
   T :Double;
+  i :Integer;
 begin
   if (EditPeriodo.Text = 'Pi') then
   begin
@@ -62,7 +63,8 @@ begin
   begin
        T:= StrToFloat(EditPeriodo.Text)
   end;
-  CalcularAn(EditEcuacion.Text, T , 0);   //Calculo A0
+  for i:=0 to StrToInt(EditCantCompoenentes.Text) do
+      CalcularAn(EditEcuacion.Text, T , i);   //Calculo An
 end;
 
 procedure TFormMain.EditPeriodoChange(Sender: TObject);
@@ -90,7 +92,8 @@ end;
 procedure TFormMain.CalcularAn(funcion:String; periodo:Double; subN: Integer);
 var
   fa, fb, T, R0, a, b, h, sum, a0: Double;
-  n, k, m: Integer;
+  n, k, m, nComp: Integer;
+  j: String;
 begin
   {             a=T/2
      An = 2/T Integral f(t).cos [(2nPi/T)t] dt
@@ -98,12 +101,12 @@ begin
   }
   T :=  periodo;
   b := T/2; a := -T/2;
-  fa := FormMain.func(a);
-  fb := FormMain.func(b);
   Matriz.RowCount := 1;
   Matriz.ColCount:= 1;
   if (subN = 0) then
   begin
+       fa := FormMain.func(funcion,a);
+       fb := FormMain.func(funcion,b);
        //Approximate the definite integral of f from a to b by Romberg's method.
        //    eps is the desired accuracy."""
        Matriz.Cells[0,0] := FloatToStr( (0.5)*( b - a ) * (fa+fb) );  //R[0][0]
@@ -112,11 +115,10 @@ begin
        While True do
        begin
             h := (b - a) / (2**n); // h = hn
-            MemoResultado.Append( FloatToStr(h));
             Matriz.RowCount := Matriz.RowCount + 1; //Agregamos una fila vacia
             sum := 0;
             for k := 1 to 2**(n-1) do
-                sum := sum + func( a + (2*k-1)*h );  // Sumatoria
+                sum := sum + func( funcion, a + (2*k-1)*h );  // Sumatoria
             Matriz.Cells[0,n] := FloatToStr( (0.5)*StrToFloat(Matriz.Cells[n-1,0])+(h*sum) );  //R[n][0]
 
             for m:=1 to n+1 do
@@ -132,18 +134,54 @@ begin
                  a0 := StrToFloat(Matriz.Cells[n,n])*2/T;
                  if ( a0 <> 0 ) then
                     SerieF := FloatToStr(a0);
-                 MemoResultado.Append('A0 = '+FloatToStr(a0));
+                 MemoResultado.Append('Componente A0 = '+FloatToStr(a0));
                  Break;
             end;
             n := n + 1;
        end;
+  end
+  else
+  begin
+       j:=funcion+'* cos(2*'+IntToStr(subN)+'*3.14*x/'+FloatToStr(T)+')';
+       fa := FormMain.func(j,a);
+       fb := FormMain.func(j,b);
+       //Approximate the definite integral of f from a to b by Romberg's method.
+       //    eps is the desired accuracy."""
+       Matriz.Cells[0,0] := FloatToStr( (0.5)*( b - a ) * (fa+fb) );  //R[0][0]
+       n := 1;
+       While True do
+       begin
+            h := (b - a) / (2**n); // h = hn
+            Matriz.RowCount := Matriz.RowCount + 1; //Agregamos una fila vacia
+            sum := 0;
+            for k := 1 to 2**(n-1) do
+                sum := sum + func( j, a + (2*k-1)*h );  // Sumatoria
+            Matriz.Cells[0,n] := FloatToStr( (0.5)*StrToFloat(Matriz.Cells[n-1,0])+(h*sum) );  //R[n][0]
 
+            for m:=1 to n+1 do
+            begin
+                 Matriz.ColCount:= Matriz.ColCount +1;
+                 if ( Matriz.Cells[m-1,n-1] = '') then
+                    Matriz.Cells[m-1,n-1] := '0';
+                 Matriz.Cells[m,n] := FloatToStr( StrToFloat(Matriz.Cells[m-1,n]) + ( StrToFloat(Matriz.Cells[m-1,n]) - StrToFloat(Matriz.Cells[m-1,n-1] ) )/  ((4**m)-1) );
+            end;
+
+            if abs( StrToFloat(Matriz.Cells[n-1,n]) - StrToFloat(Matriz.Cells[n,n]) ) < 0.00000001 Then
+            begin
+                 a0 := StrToFloat(Matriz.Cells[n,n])*2/T;
+                 if ( a0 <> 0 ) then
+                    SerieF := SerieF + FloatToStr(a0) + j;
+                 MemoResultado.Append('Componente A'+IntToStr(subN)+' = '+FloatToStr(a0));
+                 Break;
+            end;
+            n := n + 1;
+       end;
   end;
-
+  MemoResultado.Append('Serie de Fourier='+SerieF);
 end;
 
 { Funcion que calcula el valor de f(a) siendo a = cte }
-function TFormMain.func(x:Double):Double;
+function TFormMain.func(ec:String; x:Double):Double;
 var
   // Vector de variables. Contiene las variables.
   variables: array of string;
@@ -163,7 +201,7 @@ begin
      variables[0] := 'x';
      setN(vecVariables[0],x);
      //Realizamos el calculo de la funcion y agregamos el resultado al Memo.
-     s := FormMain.Formula.ComputeStr(FormMain.EditEcuacion.Text, cantidadVariables, @variables, @vecVariables);
+     s := FormMain.Formula.ComputeStr(ec, cantidadVariables, @variables, @vecVariables);
      func := StrToFloat(s);
 end;
 
