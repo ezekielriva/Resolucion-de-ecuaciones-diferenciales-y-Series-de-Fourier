@@ -13,6 +13,7 @@ type
   { TFormMain }
 
   TFormMain = class(TForm)
+    ButtonLimpiar: TButton;
     ButtonCalcular: TButton;
     EditCantCompoenentes: TEdit;
     EditEcuacion: TEdit;
@@ -28,6 +29,7 @@ type
     MemoResultado: TMemo;
     Formula: TArtFormula;
     procedure ButtonCalcularClick(Sender: TObject);
+    procedure ButtonLimpiarClick(Sender: TObject);
     procedure EditPeriodoMinChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure Label1Click(Sender: TObject);
@@ -86,6 +88,11 @@ begin
   MemoResultado.Append('Serie de Fourier='+SerieF);
 end;
 
+procedure TFormMain.ButtonLimpiarClick(Sender: TObject);
+begin
+  MemoResultado.Text:='=== Resultados de la Serie de Fourier ===';
+end;
+
 procedure TFormMain.EditPeriodoMinChange(Sender: TObject);
 begin
 
@@ -112,7 +119,7 @@ var
   fan, fbn, parcialA, parcialB: String;
   ax: Double;
 begin
-  ax := func('2*x*'+FloatToStr(pi)+'/'+FloatToStr(periodo),subN);
+  ax := func('2*x*'+FloatToStr(pi)+'/'+FloatToStr(periodo)+'*180/'+FloatToStr(pi),subN);
   fan := funcion+'* cos('+FloatToStr(ax)+'*x)';
   fbn := funcion+'* sin('+FloatToStr(ax)+'*x)';
 
@@ -145,7 +152,7 @@ var
   j: String;
 begin
   {             b=T/2
-     An = 2/T Integral f(t).cos [(2nPi/T)t] dt
+     A0 = 2/T Integral f(t) dt
                a=-T/2
   }
   T :=  periodo;
@@ -182,48 +189,8 @@ begin
             begin
                  a0 := StrToFloat(Matriz.Cells[n,n])*2/T;
                  if ( a0 <> 0 ) then
-                    SerieF := FormatFloat('0.0000000E+00', a0);
+                    SerieF := FormatFloat('0.#####', a0);
                  MemoResultado.Append('Componente A0 = '+FloatToStr(a0));
-                 Break;
-            end;
-            n := n + 1;
-       end;
-  end
-  else
-  begin
-       j:=funcion+'* cos(2*'+IntToStr(subN)+'*'+FloatToStr(pi)+'*x/'+FloatToStr(T)+')';
-       fa := FormMain.func(j,a);
-       fb := FormMain.func(j,b);
-       //Approximate the definite integral of f from a to b by Romberg's method.
-       //    eps is the desired accuracy."""
-       Matriz.Cells[0,0] := FloatToStr( (0.5)*( b - a ) * (fa+fb) );  //R[0][0]
-       n := 1;
-       While True do
-       begin
-            h := (b - a) / (2**n); // h = hn
-            Matriz.RowCount := Matriz.RowCount + 1; //Agregamos una fila vacia
-            sum := 0;
-            for k := 1 to 2**(n-1) do
-                sum := sum + func( j, a + (2*k-1)*h );  // Sumatoria
-            Matriz.Cells[0,n] := FloatToStr( (0.5)*StrToFloat(Matriz.Cells[0,n-1])+(h*sum) );  //R[n][0]
-
-            for m:=1 to n+1 do
-            begin
-                 Matriz.ColCount:= Matriz.ColCount +1;
-                 if ( Matriz.Cells[m-1,n-1] = '') then
-                    Matriz.Cells[m-1,n-1] := '0';
-                 Matriz.Cells[m,n] := FloatToStr( StrToFloat(Matriz.Cells[m-1,n]) + ( StrToFloat(Matriz.Cells[m-1,n]) - StrToFloat(Matriz.Cells[m-1,n-1] ) )/  ((4**m)-1) );
-            end;
-
-            if abs( StrToFloat(Matriz.Cells[n-1,n]) - StrToFloat(Matriz.Cells[n,n]) ) < 0.00000000001 Then
-            begin
-                 a0 := StrToFloat(Matriz.Cells[n,n])*2/T;
-                 if ( a0 <> 0 ) then
-                 begin
-                    parcial := func('2*x*3.14/'+FloatToStr(T),subN);
-                    SerieF := SerieF + '+' + FormatFloat('0.0000000E+00', a0) + '*cos ('+FloatToStr(parcial)+'t)';
-                 end;
-                 MemoResultado.Append('Componente A'+IntToStr(subN)+' = '+FloatToStr(a0));
                  Break;
             end;
             n := n + 1;
@@ -267,7 +234,7 @@ begin
        end;
        if abs( StrToFloat(Matriz.Cells[n-1,n]) - StrToFloat(Matriz.Cells[n,n]) ) < 0.0000001 Then
        begin
-            a0 := StrToFloat(Matriz.Cells[n,n]);
+            a0 := StrToFloat(Matriz.Cells[n,n]) * 2 / T;
             if (s = 'A') then
             begin
                  MemoResultado.Append('Componente A'+IntToStr(subN)+' = '+FloatToStr(a0));
