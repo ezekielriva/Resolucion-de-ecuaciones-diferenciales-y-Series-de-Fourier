@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <Package Version="3">
+    <PathDelim Value="\"/>
+    <Name Value="aformula"/>
+    <Author Value="Artem Parlyuk"/>
+    <CompilerOptions>
+      <Version Value="9"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Parsing>
+        <SyntaxOptions>
+          <SyntaxMode Value="Delphi"/>
+          <CStyleOperator Value="False"/>
+        </SyntaxOptions>
+      </Parsing>
+      <Other>
+        <CompilerPath Value="$(CompPath)"/>
+      </Other>
+    </CompilerOptions>
+    <Description Value="ArtFormula package contains two nonvisual Delphi component for symbolic
+expression parsing and evaluation. Provides runtime scripting engine for
+automating your programs."/>
+    <Version Major="1" Minor="5"/>
+    <Files Count="5">
+      <Item1>
+        <Filename Value="formula.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="formula"/>
+      </Item1>
+      <Item2>
+        <Filename Value="formulaf.pas"/>
+        <UnitName Value="formulaf"/>
+      </Item2>
+      <Item3>
+        <Filename Value="formulan.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="formulan"/>
+      </Item3>
+      <Item4>
+        <Filename Value="formulanf.pas"/>
+        <UnitName Value="formulanf"/>
+      </Item4>
+      <Item5>
+        <Filename Value="AMask.pas"/>
+        <UnitName Value="AMask"/>
+      </Item5>
+    </Files>
+    <Type Value="RunAndDesignTime"/>
+    <RequiredPkgs Count="2">
+      <Item1>
+        <PackageName Value="LCL"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="FCL"/>
+        <MinVersion Major="1" Valid="True"/>
+      </Item2>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)\"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IgnoreBinaries Value="False"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

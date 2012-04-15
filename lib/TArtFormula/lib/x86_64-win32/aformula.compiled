@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <Compiler Value="/usr/bin/fpc" Date="1297277323"/>
+  <Params Value=" -MDelphi -Sghi -O1 -Twin32 -gl -vewnhi -l -Fu/usr/lib64/lazarus/lcl/units/x86_64-win32 -Fu/usr/lib64/lazarus/lcl/units/x86_64-win32/gtk2 -Fu/usr/lib64/lazarus/packager/units/x86_64-win32 -Fu/home/ezequiel/Programacion/matematicaSuperior/Final/lib/TArtFormula/source/ -Fu. -FU/home/ezequiel/Programacion/matematicaSuperior/Final/lib/TArtFormula/source/lib/x86_64-win32/ -dLCL -dLCLgtk2 aformula.pas"/>
+  <Complete Value="False"/>
+</CONFIG>

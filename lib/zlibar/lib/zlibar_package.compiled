@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <Compiler Value="/usr/bin/fpc" Date="1297277323"/>
+  <Params Value=" -MObjFPC -Scgi -O1 -gl -vewnhi -l -Fu/usr/lib64/lazarus/packager/units/x86_64-linux -Fu/home/ezekielriva/Sources/matematicaSuperior/lib/zlibar/ -Fu. -FU/home/ezekielriva/Sources/matematicaSuperior/lib/zlibar/lib/ zlibar_package.pas"/>
+</CONFIG>
