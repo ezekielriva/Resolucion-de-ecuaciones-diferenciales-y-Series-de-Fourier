@@ -147,7 +147,7 @@ end;
 // @Parametros: Funcion, Periodo, n
 procedure TFormMain.CalcularAn(funcion:String; periodo:Double; subN: Integer);
 var
-  fa, fb, T, a, b, h, sum, a0, parcial: Double;
+  fa, fb, T, a, b, h, sum, a0: Double;
   n, k, m: Integer;
   j: String;
 begin
@@ -232,7 +232,7 @@ begin
                Matriz.Cells[m-1,n-1] := '0';
             Matriz.Cells[m,n] := FloatToStr( StrToFloat(Matriz.Cells[m-1,n]) + ( StrToFloat(Matriz.Cells[m-1,n]) - StrToFloat(Matriz.Cells[m-1,n-1]) )/  ((4**m)-1) );
        end;
-       if abs( StrToFloat(Matriz.Cells[n-1,n]) - StrToFloat(Matriz.Cells[n,n]) ) < 0.0000001 Then
+       if abs( StrToFloat(Matriz.Cells[n-1,n]) - StrToFloat(Matriz.Cells[n,n]) ) < 0.00000000001 Then
        begin
             a0 := StrToFloat(Matriz.Cells[n,n]) * 2 / T;
             if (s = 'A') then

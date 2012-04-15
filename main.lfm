@@ -1,7 +1,7 @@
 object FormMain: TFormMain
-  Left = 1656
+  Left = 488
   Height = 432
-  Top = 136
+  Top = 146
   Width = 518
   Caption = 'Series de Fourier'
   ClientHeight = 430
