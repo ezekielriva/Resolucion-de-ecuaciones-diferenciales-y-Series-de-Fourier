@@ -1,0 +1,7 @@
+== Agregar libreria TArtFormula a Lazarus ==
+1. Abrir lazarus como root.
+2. Abrir el proyecto.
+3. Ir a Paquetes > Abrir archivo de paquete (.lpk).
+4. Abrir el paquete TArtFormula.
+5. Instalar el paquete.
+
