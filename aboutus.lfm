@@ -1,0 +1,29 @@
+object FormAboutUs: TFormAboutUs
+  Left = 377
+  Height = 197
+  Top = 271
+  Width = 468
+  Caption = 'Sobre nosotros'
+  ClientHeight = 197
+  ClientWidth = 468
+  LCLVersion = '0.9.30'
+  object StaticText1: TStaticText
+    Left = 8
+    Height = 48
+    Top = 8
+    Width = 456
+    Alignment = taCenter
+    Caption = 'Resolución de Series de Fourier y '#10'Ec. Diferenciales con Euler-Runge Kutta'
+    OnClick = StaticText1Click
+    TabOrder = 0
+  end
+  object StaticText2: TStaticText
+    Left = 8
+    Height = 136
+    Top = 64
+    Width = 457
+    Caption = 'Desarrollado por:'#10'          Gonzales Lamenza, Agustin'#10'          Rivadeneira Lichardi, Ezequiel'#10#10'Versión: 1.0'#10'Licencia: GPL v.3'
+    OnClick = StaticText2Click
+    TabOrder = 1
+  end
+end
